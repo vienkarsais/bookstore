@@ -1,0 +1,16 @@
+BookStore app
+
+### Functionality:
+
+- Menu
+- Get Book Info
+- Find books
+- Add/remove Book
+- Books
+- Author Information(optional) last Task
+
+### How to build it?
+
+- Need to create tasks for each person (trello)
+- Share git repository (GitHub)
+- Data structure: Book(isbn, title, description, author, pages, publishing year, publisher)
