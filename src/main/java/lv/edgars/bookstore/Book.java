@@ -13,6 +13,9 @@ public class Book {
     private String description;
     private String isbn;
 
+    public Book() {
+    }
+
     public Book(String title, String author, LocalDate publishingYear, int pages, String publisher, String description, String isbn) {
         this.title = title;
         this.author = author;

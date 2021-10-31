@@ -24,18 +24,23 @@ public class Application {
             switch (input){
                 case "1":
                     System.out.println("Searching for book by title");
+
                     break;
                 case "2":
                     System.out.println("Adding book");
-                    bookStore.addBook();
+                    Book book = bookStore.addBook();
+                    bookStore.bookShelf.add(book);
                     break;
                 case "3":
                     System.out.println("Removing book");
-                    bookStore.removeBook();
+                    String temp = scanner.nextLine();
+                    scanner.nextLine();
+                    bookStore.removeBook(temp);
+
                     break;
                 case "4":
                     System.out.println("Available books in shelf:");
-                    bookStore.listBooks();
+                    bookStore.getBookShelf().forEach(System.out::println);
                     break;
                 default:
                     System.out.println("Wrong input, please try again");
