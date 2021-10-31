@@ -1,6 +1,7 @@
 package lv.edgars.bookstore;
 
-import org.w3c.dom.ls.LSOutput;
+import lv.edgars.models.Book;
+import lv.edgars.repository.BookRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,7 +11,10 @@ import java.util.Scanner;
 public class BookStore {
     protected List<Book> bookShelf = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
-
+    BookRepository bookRepository;
+    public BookStore(BookRepository bookRepository){
+        this.bookRepository = bookRepository;
+    }
     public Book addBook(){
         Book book = new Book();
 
@@ -31,6 +35,7 @@ public class BookStore {
         Integer year = Integer.valueOf(scanner.nextLine());
         LocalDate publishingYear = LocalDate.of(year,1,1);
         book.setPublishingYear(publishingYear);
+        //bookRepository.addBook(book);
         return book;
     }
     public void removeBook(String isdn){

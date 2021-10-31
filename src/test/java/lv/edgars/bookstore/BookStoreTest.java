@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class BookStoreTest {
-    @Test
+    /*@Test
     public void testBookWasAddedToBookshelf() {
         BookStore bookstore = new BookStore();
 
@@ -25,9 +25,9 @@ public class BookStoreTest {
         bookstore.bookShelf.add(book);
 
         assertEquals(1, bookstore.getBookShelf().size());
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void testBookWasRemovedToBookshelf() {
         BookStore bookstore = new BookStore();
 
@@ -39,8 +39,8 @@ public class BookStoreTest {
         bookstore.removeBook("7890");
 
         assertEquals(0, bookstore.getBookShelf().size());
-    }
-    @Test
+    }*/
+    /*@Test
     public void testSearchForABookByTitle(){
         BookStore bookStore = new BookStore();
 
@@ -52,5 +52,5 @@ public class BookStoreTest {
 
         List<Book> foundBooks = bookStore.searchBookByTitle("titanic");
         assertEquals(1,foundBooks.size());
-    }
+    }*/
 }

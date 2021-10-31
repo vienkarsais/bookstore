@@ -1,15 +1,15 @@
 package lv.edgars.bookstore;
 
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import lv.edgars.models.Book;
+import lv.edgars.repository.BookRepository;
+
 import java.util.Scanner;
 
 public class Application {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        BookStore bookStore = new BookStore();
+        BookStore bookStore = new BookStore(new BookRepository());
         Display display = new Display();
 
         while(true){
@@ -28,7 +28,7 @@ public class Application {
                 case "2":
                     System.out.println("Adding book");
                     Book book = bookStore.addBook();
-                    bookStore.bookShelf.add(book);
+                    bookStore.bookRepository.addBook(book);
                     break;
                 case "3":
                     System.out.println("Removing book");
