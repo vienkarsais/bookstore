@@ -43,7 +43,7 @@ public class BookStore {
         List<Book> foundBooks = new ArrayList<>();
         for (Book book : bookShelf){
             if (book.getTitle().contains(query)){
-                System.out.println(book.getTitle());
+                System.out.println(book);
                 foundBooks.add(book);
             }
         }
