@@ -1,16 +1,25 @@
 package lv.edgars.bookstore;
 
-
-import lv.edgars.models.Book;
 import lv.edgars.repository.BookRepository;
-
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import java.util.Scanner;
 
 public class Application {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        BookStore bookStore = new BookStore(new BookRepository());
         Display display = new Display();
+
+        try (SessionFactory sessionFactory = new Configuration()
+                .configure("hibernate.cfg.xml")
+                .buildSessionFactory()) {
+            Session sessionInit = sessionFactory.openSession();
+            Session session = sessionInit.getSession();
+
+            BookRepository bookRepository = new BookRepository(session);
+            BookStore bookStore = new BookStore(bookRepository);
+
 
         while(true){
             display.menu();
@@ -27,8 +36,8 @@ public class Application {
                     break;
                 case "2":
                     System.out.println("Adding book");
-                    Book book = bookStore.addBook();
-                    bookStore.bookRepository.addBook(book);
+                    bookStore.addBook();
+                    //bookStore.bookRepository.addBook(book);
                     break;
                 case "3":
                     System.out.println("Removing book");
@@ -44,6 +53,7 @@ public class Application {
 
 
             }
+        }
 
         }
 

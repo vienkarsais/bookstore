@@ -12,6 +12,7 @@ public class BookStore {
     protected List<Book> bookShelf = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
     BookRepository bookRepository;
+
     public BookStore(BookRepository bookRepository){
         this.bookRepository = bookRepository;
     }
@@ -35,7 +36,7 @@ public class BookStore {
         Integer year = Integer.valueOf(scanner.nextLine());
         LocalDate publishingYear = LocalDate.of(year,1,1);
         book.setPublishingYear(publishingYear);
-        //bookRepository.addBook(book);
+        bookRepository.addBook(book);
         return book;
     }
     public void removeBook(String isdn){

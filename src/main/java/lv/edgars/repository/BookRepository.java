@@ -1,7 +1,8 @@
 package lv.edgars.repository;
 
+
+
 import lv.edgars.models.Book;
-import lv.edgars.repository.IBookRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -12,17 +13,11 @@ import java.util.List;
 
 
 public class BookRepository implements IBookRepository {
-    private EntityManager entityManager = null;
+    private EntityManager entityManager;
 
 
-    public BookRepository() {
-        try (SessionFactory sessionFactory = new Configuration()
-                .configure("hibernate.cfg.xml")
-                .buildSessionFactory()) {
-            Session sessionInit = sessionFactory.openSession();
-            Session session = sessionInit.getSession();
-            this.entityManager = session;
-        }
+    public BookRepository(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
 
