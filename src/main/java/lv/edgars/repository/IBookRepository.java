@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IBookRepository {
     Book addBook(Book book);
-    void removeBook(Book book);
-    List<Book> showAllBooks();
+    void removeBook(String isbn);
+    List<Book> getAllBooks();
     List<Book> findByTitle(String title);
 }

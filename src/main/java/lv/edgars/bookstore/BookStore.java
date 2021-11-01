@@ -39,21 +39,25 @@ public class BookStore {
         bookRepository.addBook(book);
         return book;
     }
-    public void removeBook(String isdn){
-        bookShelf.removeIf(book -> book.getIsbn().equals(isdn));
+    public void removeBook(String isbn){
+        bookRepository.removeBook(isbn);
     }
-    public List<Book> getBookShelf() {
-        return bookShelf;
-    }
-    public List<Book> searchBookByTitle(String query) {
-        List<Book> foundBooks = new ArrayList<>();
-        for (Book book : bookShelf){
-            if (book.getTitle().contains(query)){
-                System.out.println(book);
-                foundBooks.add(book);
-            }
+    public void getBookShelf() {
+        List<Book> bookList = bookRepository.getAllBooks();
+        for (Book b : bookList){
+            System.out.println(String.format("ID: %d | Title: %s | Pages: %d | Description: %s | Author: %s | Publishing year: %tF | Publisher: %s | Isbn: %s",
+                    b.getId(),
+                    b.getTitle(),
+                    b.getPages(),
+                    b.getDescription(),
+                    b.getAuthor(),
+                    b.getPublishingYear(),
+                    b.getPublisher(),
+                    b.getIsbn()));
         }
-        return foundBooks;
+    }
+    public List<Book> searchBookByTitle(String title) {
+        return bookRepository.findByTitle(title);
     }
 
 }

@@ -40,29 +40,31 @@ public class BookRepository implements IBookRepository {
     }
 
 
-    public void removeBook(Book book) {
-        EntityTransaction transaction = null;
+    public void removeBook(String isbn) {
+        entityManager.createQuery("delete isbn from Book where isbn = :isbn", Book.class)
+                .setParameter("isbn", isbn);
+
+        /*EntityTransaction transaction = null;
         try{
             transaction = entityManager.getTransaction();
             if (!transaction.isActive()){
                 transaction.begin();
             }
-            entityManager.remove(book);
+            entityManager.remove(isbn);
             transaction.commit();
-            return ;
         }catch (Exception e){
             if (transaction != null){
                 transaction.rollback();
             }
-        }
+        }*/
     }
 
-    public List<Book> showAllBooks() {
-        return entityManager.createQuery("from book", Book.class).getResultList();
+    public List<Book> getAllBooks() {
+        return entityManager.createQuery("from Book", Book.class).getResultList();
     }
 
     public List<Book> findByTitle(String title) {
-        return entityManager.createQuery("select b from book where b.title = :title", Book.class)
+        return entityManager.createQuery("select title from Book where title = :title", Book.class)
                 .setParameter("title", title)
                 .getResultList();
     }

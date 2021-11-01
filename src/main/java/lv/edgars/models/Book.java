@@ -103,8 +103,7 @@ public class Book {
         this.isbn = isbn;
         return this;
     }
-    @Override
-    public String toString() {
+    public String formatAsString() {
         return "Book{" +
                 "title='" + title + '\'' +
                 ", author='" + author + '\'' +
