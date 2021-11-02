@@ -1,19 +1,33 @@
-package lv.edgars.bookstore;
+package lv.edgars.models;
 
+import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
+@Entity
+@Table(name = "book")
 public class Book {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Column
     private String title;
+    @Column
     private String author;
+    @Column
     private LocalDate publishingYear;
     private int pages;
+    @Column
     private String publisher;
+    @Column
     private String description;
+    @Column
     private String isbn;
 
-    public Book(String title, String author, LocalDate publishingYear, int pages, String publisher, String description, String isbn) {
+    public Book() {
+    }
+
+    public Book(int id,String title, String author, LocalDate publishingYear, int pages, String publisher, String description, String isbn) {
+        this.id = id;
         this.title = title;
         this.author = author;
         this.publishingYear = publishingYear;
@@ -21,6 +35,10 @@ public class Book {
         this.publisher = publisher;
         this.description = description;
         this.isbn = isbn;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -85,8 +103,7 @@ public class Book {
         this.isbn = isbn;
         return this;
     }
-    @Override
-    public String toString() {
+    public String formatAsString() {
         return "Book{" +
                 "title='" + title + '\'' +
                 ", author='" + author + '\'' +
