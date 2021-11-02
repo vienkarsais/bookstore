@@ -2,18 +2,17 @@ package lv.edgars.bookstore;
 
 import lv.edgars.models.Book;
 import lv.edgars.repository.BookRepository;
+import lv.edgars.repository.IBookRepository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class BookStore {
-    protected List<Book> bookShelf = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
-    BookRepository bookRepository;
+    IBookRepository bookRepository;
 
-    public BookStore(BookRepository bookRepository){
+    public BookStore(IBookRepository bookRepository){
         this.bookRepository = bookRepository;
     }
     public Book addBook(){
