@@ -1,14 +1,11 @@
 package lv.edgars.repository;
 
 
-
 import lv.edgars.models.Book;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import java.util.List;
 
 
@@ -23,16 +20,16 @@ public class BookRepository implements IBookRepository {
 
     public Book addBook(Book book) {
         EntityTransaction transaction = null;
-        try{
+        try {
             transaction = entityManager.getTransaction();
-            if (!transaction.isActive()){
+            if (!transaction.isActive()) {
                 transaction.begin();
             }
             entityManager.persist(book);
             transaction.commit();
             return book;
-        }catch (Exception e){
-            if (transaction != null){
+        } catch (Exception e) {
+            if (transaction != null) {
                 transaction.rollback();
             }
         }
@@ -41,22 +38,23 @@ public class BookRepository implements IBookRepository {
 
 
     public void removeBook(String isbn) {
-        entityManager.createQuery("delete isbn from Book where isbn = :isbn", Book.class)
-                .setParameter("isbn", isbn);
-
-        /*EntityTransaction transaction = null;
-        try{
+        EntityTransaction transaction = null;
+        try {
             transaction = entityManager.getTransaction();
-            if (!transaction.isActive()){
+            if (!transaction.isActive()) {
                 transaction.begin();
             }
-            entityManager.remove(isbn);
+            Query query = entityManager.createQuery("DELETE FROM Book b WHERE b.isbn = :isbn");
+            query.setParameter("isbn", isbn);
+            int rowsDeleted = query.executeUpdate();
+            System.out.println("entities deleted: " + rowsDeleted);
             transaction.commit();
-        }catch (Exception e){
-            if (transaction != null){
+
+        } catch (Exception e) {
+            if (transaction != null) {
                 transaction.rollback();
             }
-        }*/
+        }
     }
 
     public List<Book> getAllBooks() {
@@ -64,7 +62,7 @@ public class BookRepository implements IBookRepository {
     }
 
     public List<Book> findByTitle(String title) {
-        return entityManager.createQuery("select title from Book where title = :title", Book.class)
+        return entityManager.createQuery(" from Book where title = :title", Book.class)
                 .setParameter("title", title)
                 .getResultList();
     }

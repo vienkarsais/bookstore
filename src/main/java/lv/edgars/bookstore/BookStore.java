@@ -56,8 +56,19 @@ public class BookStore {
                     b.getIsbn()));
         }
     }
-    public List<Book> searchBookByTitle(String title) {
-        return bookRepository.findByTitle(title);
+    public void searchBookByTitle(String title) {
+       List<Book> bookList = bookRepository.findByTitle(title);
+        for (Book b : bookList){
+            System.out.println(String.format("ID: %d | Title: %s | Pages: %d | Description: %s | Author: %s | Publishing year: %tF | Publisher: %s | Isbn: %s",
+                    b.getId(),
+                    b.getTitle(),
+                    b.getPages(),
+                    b.getDescription(),
+                    b.getAuthor(),
+                    b.getPublishingYear(),
+                    b.getPublisher(),
+                    b.getIsbn()));
+        }
     }
 
 }
