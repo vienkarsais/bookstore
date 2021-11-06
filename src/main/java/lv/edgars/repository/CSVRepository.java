@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+Feature/EddysVersion
 public class CSVRepository implements IBookRepository {
+
 
     public static List<Book> bookShelf = new ArrayList<>();
     static Scanner scanner = new Scanner(System.in);
@@ -26,6 +28,7 @@ public class CSVRepository implements IBookRepository {
         } catch (Exception e) {
             System.out.println(e + " vai tas ir shis?");
         }
+
     }
 
     private static Book createBook(String line) {
@@ -44,6 +47,7 @@ public class CSVRepository implements IBookRepository {
         return newbook;
     }
 
+
     public void removeBook(String isbn) {
         bookShelf.removeIf(book -> book.getIsbn().equals(isbn));
     }
@@ -53,6 +57,7 @@ public class CSVRepository implements IBookRepository {
     }
 
 
+Feature/EddysVersion
     public List<Book> findByTitle(String title) {
         List<Book> foundBooks = new ArrayList<>();
         for (Book b : bookShelf) {
@@ -71,6 +76,7 @@ public class CSVRepository implements IBookRepository {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public void saveIntoFile() throws IOException {
