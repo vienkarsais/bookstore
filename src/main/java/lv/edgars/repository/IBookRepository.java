@@ -1,7 +1,8 @@
 package lv.edgars.repository;
 
-import lv.edgars.models.Book;
 
+
+import lv.edgars.models.Book;
 import java.util.List;
 
 public interface IBookRepository {

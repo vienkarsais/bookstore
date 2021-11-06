@@ -2,10 +2,10 @@ package lv.edgars;
 
 import lv.edgars.bookstore.BookStore;
 import lv.edgars.bookstore.Display;
-import lv.edgars.builders.SessionBuilder;
 import lv.edgars.repository.BookRepository;
 import lv.edgars.repository.CSVRepository;
 import lv.edgars.repository.IBookRepository;
+import lv.edgars.builders.SessionBuilder;
 
 import java.util.Scanner;
 
@@ -19,7 +19,7 @@ public class Application {
 
         while (bookRepository == null) {
             display.displayDataLocationMenu();
-            input = scanner.next();
+            input = scanner.nextLine();
             switch (input) {
                 case "1":
                     SessionBuilder sessionBuilder = SessionBuilder.getInstance();
@@ -36,7 +36,7 @@ public class Application {
 
         while (true) {
             display.displayBookMenu();
-            input = scanner.next();
+            input = scanner.nextLine(); // 1
             if (input.equalsIgnoreCase("Q")) {
                 System.out.println("Thank you for using our services");
                 break;
@@ -44,7 +44,7 @@ public class Application {
             switch (input) {
                 case "1":
                     System.out.println("Searching for book by title");
-                    bookStore.searchBookByTitle(scanner.next());
+                    bookStore.searchBookByTitle(scanner.nextLine());
                     break;
                 case "2":
                     System.out.println("Adding book");
@@ -52,7 +52,8 @@ public class Application {
                     break;
                 case "3":
                     System.out.println("Removing book");
-                    bookStore.removeBook(scanner.next());
+                    bookStore.removeBook(scanner.nextLine());
+
 
                     break;
                 case "4":
