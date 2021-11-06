@@ -24,9 +24,11 @@ public class Application {
                 case "1":
                     SessionBuilder sessionBuilder = SessionBuilder.getInstance();
                     bookRepository = new BookRepository(sessionBuilder.build());
+
                     break;
                 case "2":
                     bookRepository = new CSVRepository();
+
                     break;
                 default:
                     System.out.println("Wrong input, please try again");
@@ -39,12 +41,13 @@ public class Application {
             input = scanner.nextLine(); // 1
             if (input.equalsIgnoreCase("Q")) {
                 System.out.println("Thank you for using our services");
+                bookRepository.postDestroy();
                 break;
             }
             switch (input) {
                 case "1":
                     System.out.println("Searching for book by title");
-                    bookStore.searchBookByTitle(scanner.nextLine());
+                    bookStore.searchBookByTitleDB(scanner.nextLine().toLowerCase());
                     break;
                 case "2":
                     System.out.println("Adding book");

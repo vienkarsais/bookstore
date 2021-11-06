@@ -8,7 +8,9 @@ import lv.edgars.repository.IBookRepository;
 import lv.edgars.models.Book;
 import java.time.LocalDate;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class BookStore {
@@ -59,7 +61,7 @@ public class BookStore {
                     b.getIsbn()));
         }
     }
-    public void searchBookByTitle(String title) {
+    public void searchBookByTitleDB(String title) {
         List<Book> bookList = bookRepository.findByTitle(title);
         for (Book b : bookList){
             System.out.println(String.format("ID: %d | Title: %s | Pages: %d | Description: %s | Author: %s | Publishing year: %tF | Publisher: %s | Isbn: %s",
@@ -73,5 +75,16 @@ public class BookStore {
                     b.getIsbn()));
         }
     }
+    public void searchByTitleCSV(String title) {
+        List<Book> bookShelf = new ArrayList<>();
+        for (Book b : bookShelf) {
+            if (b.getTitle().toLowerCase().contains(title)) {
+                System.out.println(b);
+            }
+        }
+    }
+
+
+
 
 }

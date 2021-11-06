@@ -10,4 +10,5 @@ public interface IBookRepository {
     void removeBook(String isbn);
     List<Book> getAllBooks();
     List<Book> findByTitle(String title);
+    default void postDestroy(){}
 }

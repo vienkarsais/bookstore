@@ -21,16 +21,31 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class BookStoreTest {
-    protected static EntityManager entityManager;
-    private static SessionBuilder sessionBuilder = SessionBuilder.getInstance();
-    private BookRepository bookRepository = new BookRepository(sessionBuilder.build());
+    protected EntityManager entityManager;
+    protected SessionBuilder sessionBuilder = SessionBuilder.getInstance();
+    protected BookRepository bookRepository = new BookRepository(sessionBuilder.build());
 
 
     @Test
     public void testIfBookIsAdded(){
+        BookStore bookStore = new BookStore(bookRepository);
         Book book1 = new Book();
-        book1.setTitle("Testing");
+        book1.setTitle("testing");
         EntityTransaction transaction = null;
+
+        try {
+            transaction = entityManager.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            entityManager.persist(book1);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        }
+
 
 
 

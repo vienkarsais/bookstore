@@ -25,7 +25,15 @@ public class Book {
 
     public Book() {
     }
-
+    public Book(String title, String author, LocalDate publishingYear, int pages, String publisher, String description, String isbn) {
+        this.title = title;
+        this.author = author;
+        this.publishingYear = publishingYear;
+        this.pages = pages;
+        this.publisher = publisher;
+        this.description = description;
+        this.isbn = isbn;
+    }
     public Book(int id,String title, String author, LocalDate publishingYear, int pages, String publisher, String description, String isbn) {
         this.id = id;
         this.title = title;
@@ -103,15 +111,8 @@ public class Book {
         this.isbn = isbn;
         return this;
     }
-    public String formatAsString() {
-        return "Book{" +
-                "title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", publishingYear=" + publishingYear +
-                ", pages=" + pages +
-                ", publisher='" + publisher + '\'' +
-                ", description='" + description + '\'' +
-                ", isbn='" + isbn + '\'' +
-                '}';
+    public String toString() {
+        return title + "," + author + "," + publishingYear.getYear() + "," + pages + "," + publisher
+                + "," + description + "," + isbn;
     }
 }
