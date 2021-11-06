@@ -1,11 +1,11 @@
 package lv.edgars.repository;
 
 
-import lv.edgars.models.Book;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import lv.edgars.models.Book;
 import java.util.List;
 
 

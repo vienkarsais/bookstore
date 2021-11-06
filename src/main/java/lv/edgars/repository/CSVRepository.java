@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CSVRepository implements IBookRepository{
+Feature/EddysVersion
+public class CSVRepository implements IBookRepository {
+
 
     public static List<Book> bookShelf = new ArrayList<>();
     static Scanner scanner = new Scanner(System.in);
@@ -26,6 +28,7 @@ public class CSVRepository implements IBookRepository{
         } catch (Exception e) {
             System.out.println(e + " vai tas ir shis?");
         }
+
     }
 
     private static Book createBook(String line) {
@@ -33,36 +36,47 @@ public class CSVRepository implements IBookRepository{
         return new Book(data[0], data[1], LocalDate.of(Integer.parseInt(data[2]), 1, 1), Integer.parseInt(data[3]), data[4], data[5], data[6]);
     }
 
-    public void addBook(Book newbook) {
+    public Book addBook(Book newbook) {
         for (Book book : bookShelf) {
             if (book.getIsbn().equals(newbook.getIsbn())) {
                 System.out.println("Book already exists in the database.");
-                return;
+
             }
         }
         bookShelf.add(newbook);
+        return newbook;
     }
 
-    String isbn;
-
-    public String userRemoveBook() {
-        System.out.println("enter ISBN");
-        isbn = scanner.nextLine();
-        return isbn;
-    }
 
     public void removeBook(String isbn) {
         bookShelf.removeIf(book -> book.getIsbn().equals(isbn));
-
     }
 
     public List<Book> getAllBooks() {
-        return null;
+        return bookShelf;
     }
 
 
-        public List<Book> findByTitle(String title) {
-        return null;
+Feature/EddysVersion
+    public List<Book> findByTitle(String title) {
+        List<Book> foundBooks = new ArrayList<>();
+        for (Book b : bookShelf) {
+            if (b.getTitle().toLowerCase().contains(title)) {
+                System.out.println(b);
+                foundBooks.add(b);
+            }
+        }
+        return foundBooks;
+    }
+
+    @Override
+    public void postDestroy() {
+        try {
+            saveIntoFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void saveIntoFile() throws IOException {
@@ -80,4 +94,5 @@ public class CSVRepository implements IBookRepository{
         bw.close();
         fw.close();
     }
+
 }

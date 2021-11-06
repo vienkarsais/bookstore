@@ -1,0 +1,6 @@
+String title, String author, LocalDate publishingYear, int pages, String publisher, String description, String isbn
+Momo,Mihails Ende,1987,236,Liesma,pasaka,480302000-87.
+Būda,Viljams P.Jangs,2007,179,ABC,par nozīmi,78-9934-0-1128-3.
+Meistars un Margarita,Mihails Bulgakovs,1973,411,publisher Jumava,description fantastika,9984-506-34-7.
+Jelgava 94,Jānis Joņevs,2013,311,Apgāds Mansards,par tiem laikiem,978-9934-12-126-5.
+test,1,1,1,,1,1

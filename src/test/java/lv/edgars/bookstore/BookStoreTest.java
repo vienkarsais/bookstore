@@ -1,9 +1,15 @@
 package lv.edgars.bookstore;
 
 
+import lv.edgars.builders.SessionBuilder;
+import lv.edgars.models.Book;
+import lv.edgars.repository.BookRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,8 +20,51 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-/*public class BookStoreTest {
+public class BookStoreTest {
+    protected EntityManager entityManager;
+    protected SessionBuilder sessionBuilder = SessionBuilder.getInstance();
+    protected BookRepository bookRepository = new BookRepository(sessionBuilder.build());
+
+
     @Test
+    public void testIfBookIsAdded(){
+        BookStore bookStore = new BookStore(bookRepository);
+        Book book1 = new Book();
+        book1.setTitle("testing");
+        EntityTransaction transaction = null;
+
+        try {
+            transaction = entityManager.getTransaction();
+            if (!transaction.isActive()) {
+                transaction.begin();
+            }
+            entityManager.persist(book1);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        }
+
+
+
+
+    }
+
+    @Test
+    public void testIfBookIsRemoved(){
+
+    }
+    @Test
+    public void testDatabaseListSize(){
+
+    }
+
+    @Test
+    public void testIfSearchWorks(){
+
+    }
+    /*@Test
     public void testBookWasAddedToBookshelf() {
         BookStore bookstore = new BookStore();
 

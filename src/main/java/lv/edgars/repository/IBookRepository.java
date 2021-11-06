@@ -1,7 +1,8 @@
 package lv.edgars.repository;
 
-import lv.edgars.models.Book;
 
+
+import lv.edgars.models.Book;
 import java.util.List;
 
 public interface IBookRepository {
@@ -9,4 +10,5 @@ public interface IBookRepository {
     void removeBook(String isbn);
     List<Book> getAllBooks();
     List<Book> findByTitle(String title);
+    default void postDestroy(){}
 }
