@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class CSVRepository implements IBookRepository {
 
-    public static List<Book> bookShelf = new ArrayList<>();
+    private static List<Book> bookShelf = new ArrayList<>();
     static Scanner scanner = new Scanner(System.in);
 
     public CSVRepository() {
@@ -71,6 +71,11 @@ public class CSVRepository implements IBookRepository {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean duplicateExists(String isbn) {
+        return false;
     }
 
     public void saveIntoFile() throws IOException {

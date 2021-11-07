@@ -1,26 +1,27 @@
 package lv.edgars.bookstore;
 
 
-
 import lv.edgars.repository.IBookRepository;
 
 
 import lv.edgars.models.Book;
+
 import java.time.LocalDate;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class BookStore {
     Scanner scanner = new Scanner(System.in);
     IBookRepository bookRepository;
+    private Validator validator;
 
-    public BookStore(IBookRepository bookRepository){
+    public BookStore(IBookRepository bookRepository) {
         this.bookRepository = bookRepository;
+        this.validator = new Validator(bookRepository);
     }
-    public Book addBook(){
+
+    public Book addBook() {
         Book book1 = new Book();
 
         System.out.println("Enter title:");
@@ -28,7 +29,7 @@ public class BookStore {
         System.out.println("Enter author:");
         book1.setAuthor(scanner.nextLine());
         System.out.println("How many pages:");
-        book1.setPages(scanner.nextInt());
+        book1.setPages(validator.validateInteger(scanner.nextInt()));
         System.out.println("Enter publisher:");
         book1.setPublisher(scanner.nextLine());
         scanner.nextLine();
@@ -37,21 +38,25 @@ public class BookStore {
         System.out.println("Enter isbn code:");
         book1.setIsbn(scanner.nextLine());
         System.out.println("Enter publishing year:");
-        Integer year = Integer.valueOf(scanner.nextLine());
-        LocalDate publishingYear = LocalDate.of(year,1,1);
+        int year = Integer.parseInt(scanner.nextLine());
+        LocalDate publishingYear = LocalDate.of(year, 1, 1);
         book1.setPublishingYear(publishingYear);
-        bookRepository.addBook(book1);
+        if(validator.isBookValid(book1)){
+            bookRepository.addBook(book1);
+        }else {
+            addBook();
+        }
         return book1;
     }
-    public void removeBook(String isbn){
+
+    public void removeBook(String isbn) {
         bookRepository.removeBook(isbn);
     }
 
     public void getBookShelf() {
         List<Book> bookList = bookRepository.getAllBooks();
-        for (Book b : bookList){
-            System.out.println(String.format("ID: %d | Title: %s | Pages: %d | Description: %s | Author: %s | Publishing year: %tF | Publisher: %s | Isbn: %s",
-                    b.getId(),
+        for (Book b : bookList) {
+            System.out.println(String.format("Title: %s | Pages: %d | Description: %s | Author: %s | Publishing year: %tF | Publisher: %s | Isbn: %s",
                     b.getTitle(),
                     b.getPages(),
                     b.getDescription(),
@@ -61,11 +66,11 @@ public class BookStore {
                     b.getIsbn()));
         }
     }
-    public void searchBookByTitleDB(String title) {
-        List<Book> bookList = bookRepository.findByTitle(title);
-        for (Book b : bookList){
-            System.out.println(String.format("ID: %d | Title: %s | Pages: %d | Description: %s | Author: %s | Publishing year: %tF | Publisher: %s | Isbn: %s",
-                    b.getId(),
+
+    public void searchBookByTitle(String title) {
+        List<Book> bookList = bookRepository.findByTitle(title.toLowerCase());
+        for (Book b : bookList) {
+            System.out.println(String.format("Title: %s | Pages: %d | Description: %s | Author: %s | Publishing year: %tF | Publisher: %s | Isbn: %s",
                     b.getTitle(),
                     b.getPages(),
                     b.getDescription(),
@@ -75,16 +80,4 @@ public class BookStore {
                     b.getIsbn()));
         }
     }
-    public void searchByTitleCSV(String title) {
-        List<Book> bookShelf = new ArrayList<>();
-        for (Book b : bookShelf) {
-            if (b.getTitle().toLowerCase().contains(title)) {
-                System.out.println(b);
-            }
-        }
-    }
-
-
-
-
 }

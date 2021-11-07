@@ -4,18 +4,11 @@ package lv.edgars.bookstore;
 import lv.edgars.builders.SessionBuilder;
 import lv.edgars.models.Book;
 import lv.edgars.repository.BookRepository;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.junit.jupiter.api.*;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -23,83 +16,65 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class BookStoreTest {
     protected EntityManager entityManager;
     protected SessionBuilder sessionBuilder = SessionBuilder.getInstance();
-    protected BookRepository bookRepository = new BookRepository(sessionBuilder.build());
+    protected BookRepository bookRepository;
+    protected static SessionFactory sessionFactory;
+    protected Session session;
 
+    @BeforeAll
+    public static void classSetUp() {
+        sessionFactory = HibernateUtil.getSessionFactory();
+    }
 
-    @Test
-    public void testIfBookIsAdded(){
-        BookStore bookStore = new BookStore(bookRepository);
-        Book book1 = new Book();
-        book1.setTitle("testing");
-        EntityTransaction transaction = null;
+    @BeforeEach
+    public void setUp() {
+        beginSessionTransactionAndSaveToHolder();
+        bookRepository = new BookRepository(sessionBuilder.build());
+    }
 
-        try {
-            transaction = entityManager.getTransaction();
-            if (!transaction.isActive()) {
-                transaction.begin();
-            }
-            entityManager.persist(book1);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        }
+    @AfterEach
+    public void tearDown() {
+        sessionCommitAndClose();
+    }
 
+    private void beginSessionTransactionAndSaveToHolder() {
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+    }
 
-
-
+    private void sessionCommitAndClose() {
+        session.getTransaction().rollback();
+        session.close();
     }
 
     @Test
-    public void testIfBookIsRemoved(){
+    public void testIfBookIsAddedDB(){
+        Book book1 = new Book("Test","test",LocalDate.of(2000,1,1),20,"test","test","123");
+        int size = bookRepository.getAllBooks().size();
+        bookRepository.addBook(book1);
 
+        assertEquals(size + 1, bookRepository.getAllBooks().size());
+        bookRepository.removeBook("123");
+    }
+
+    @Test
+    public void testIfBookIsRemovedDB(){
+        Book book1 = new Book("Test","test",LocalDate.of(2000,1,1),20,"test","test","123");
+        bookRepository.addBook(book1);
+        int size = bookRepository.getAllBooks().size();
+        bookRepository.removeBook("123");
+        assertEquals(size - 1, bookRepository.getAllBooks().size());
     }
     @Test
-    public void testDatabaseListSize(){
-
+    public void testListSizeDB(){
+        int size = bookRepository.getAllBooks().size();
+        assertEquals(size, bookRepository.getAllBooks().size());
     }
 
     @Test
-    public void testIfSearchWorks(){
-
+    public void testIfSearchWorksDB(){
+        Book book1 = new Book("Test","test",LocalDate.of(2000,1,1),20,"test","test","123");
+        bookRepository.addBook(book1);
+        assertEquals(1,bookRepository.findByTitle("Test").size());
+        bookRepository.removeBook("123");
     }
-    /*@Test
-    public void testBookWasAddedToBookshelf() {
-        BookStore bookstore = new BookStore();
-
-        assertEquals(0, bookstore.getBookShelf().size());
-
-        Book book = new Book("Bada Speles", "Suzanna", LocalDate.of(1999, 4, 1), 320, "adc", "drama", "7890");
-        bookstore.bookShelf.add(book);
-
-        assertEquals(1, bookstore.getBookShelf().size());
-    }*/
-
-    /*@Test
-    public void testBookWasRemovedToBookshelf() {
-        BookStore bookstore = new BookStore();
-
-        Book book = new Book("Bada Speles", "Suzanna", LocalDate.of(1999, 4, 1), 320, "adc", "drama", "7890");
-        bookstore.bookShelf.add(book);
-
-        assertEquals(1, bookstore.getBookShelf().size());
-
-        bookstore.removeBook("7890");
-
-        assertEquals(0, bookstore.getBookShelf().size());
-    }*/
-    /*@Test
-    public void testSearchForABookByTitle(){
-        BookStore bookStore = new BookStore();
-
-        Book book1 = new Book("Bada Speles", "Suzanna", LocalDate.of(1999, 4, 1), 320, "adc", "drama", "7890");
-        Book book2 = new Book("titanic", "Aldis", LocalDate.of(2000, 4, 1), 320, "adc", "drama", "1234");
-        bookStore.bookShelf.add(book1);
-        bookStore.bookShelf.add(book2);
-        bookStore.searchBookByTitle("titanic");
-
-        List<Book> foundBooks = bookStore.searchBookByTitle("titanic");
-        assertEquals(1,foundBooks.size());
-    }*/
 }

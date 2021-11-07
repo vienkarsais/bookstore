@@ -11,4 +11,5 @@ public interface IBookRepository {
     List<Book> getAllBooks();
     List<Book> findByTitle(String title);
     default void postDestroy(){}
+    boolean duplicateExists(String isbn);
 }

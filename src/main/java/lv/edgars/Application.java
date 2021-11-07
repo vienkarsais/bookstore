@@ -47,7 +47,7 @@ public class Application {
             switch (input) {
                 case "1":
                     System.out.println("Searching for book by title");
-                    bookStore.searchBookByTitleDB(scanner.nextLine().toLowerCase());
+                    bookStore.searchBookByTitle(scanner.nextLine().toLowerCase());
                     break;
                 case "2":
                     System.out.println("Adding book");

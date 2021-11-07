@@ -66,4 +66,16 @@ public class BookRepository implements IBookRepository {
                 .setParameter("title", title)
                 .getResultList();
     }
+    public boolean duplicateExists(String isbn){
+        Query q = entityManager.createQuery(" from Book where isbn = :isbn", Book.class)
+                .setParameter("isbn", isbn);
+        List<Book> books = q.getResultList();
+        if (books.size() > 0){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
 }
